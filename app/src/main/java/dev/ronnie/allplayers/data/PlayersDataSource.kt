@@ -5,7 +5,7 @@ import dev.ronnie.allplayers.api.PlayersApi
 import dev.ronnie.allplayers.models.Data
 import dev.ronnie.allplayers.utils.retrofit
 
-class PlayersDataSource() : PagingSource<Int, Data>() {
+class PlayersDataSource : PagingSource<Int, Data>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> {
         val page = params.key ?: 0

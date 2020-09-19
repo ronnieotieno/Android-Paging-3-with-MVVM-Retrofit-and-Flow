@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.ronnie.allplayers.databinding.AdapterItemBinding
 import dev.ronnie.allplayers.models.Data
 
-class PlayersAdapter() :
+class PlayersAdapter:
     PagingDataAdapter<Data, PlayersAdapter.PlayersViewHolder>(
-        OrdersDiffCallback()
+        PlayersDiffCallback()
     ) {
 
     override fun onBindViewHolder(holder: PlayersViewHolder, position: Int) {
@@ -41,7 +41,7 @@ class PlayersAdapter() :
 
     }
 
-    private class OrdersDiffCallback : DiffUtil.ItemCallback<Data>() {
+    private class PlayersDiffCallback : DiffUtil.ItemCallback<Data>() {
         override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
             return oldItem.id == newItem.id
         }
