@@ -8,7 +8,7 @@ import dev.ronnie.allplayers.data.PlayersRepository
 import dev.ronnie.allplayers.models.Data
 import kotlinx.coroutines.flow.Flow
 
-class MainViewModel(val repository: PlayersRepository) : ViewModel() {
+class MainViewModel(private val repository: PlayersRepository) : ViewModel() {
 
     private var currentResult: Flow<PagingData<Data>>? = null
 

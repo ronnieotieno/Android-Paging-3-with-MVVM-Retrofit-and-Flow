@@ -1,6 +1,7 @@
 package dev.ronnie.allplayers.utils
 
 import okhttp3.OkHttpClient
+import okhttp3.internal.applyConnectionSpec
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,6 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 fun retrofit(): Retrofit {
+
     val loggingInterceptor = HttpLoggingInterceptor()
     loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 

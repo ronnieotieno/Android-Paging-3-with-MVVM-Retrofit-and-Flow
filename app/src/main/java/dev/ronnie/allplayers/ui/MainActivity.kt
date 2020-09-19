@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    val viewModel: MainViewModel by viewModels {
+    private val viewModel: MainViewModel by viewModels {
         InjectorUtils.provideViewModelFactory()
     }
     lateinit var binding: ActivityMainBinding
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        setUpAdater()
+        setUpAdapter()
         startSearchJob()
 
     }
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpAdater() {
+    private fun setUpAdapter() {
 
         binding.allProductRecyclerView.layoutManager = LinearLayoutManager(this)
 

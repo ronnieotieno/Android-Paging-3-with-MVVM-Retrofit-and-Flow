@@ -19,7 +19,7 @@ class PlayersDataSource : PagingSource<Int, Data>() {
             val players = response.data
             LoadResult.Page(
                 data = players,
-                prevKey = if (page == 0) null else page - params.loadSize,
+                prevKey = if (page == 0) null else page - 1,
                 nextKey = if (response.meta.next_page == null) null else page + 1
             )
 
