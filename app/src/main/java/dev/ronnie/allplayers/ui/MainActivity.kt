@@ -9,11 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dev.ronnie.allplayers.R
 import dev.ronnie.allplayers.adapters.PlayersAdapter
 import dev.ronnie.allplayers.adapters.PlayersLoadingStateAdapter
 import dev.ronnie.allplayers.databinding.ActivityMainBinding
 import dev.ronnie.allplayers.utils.InjectorUtils
+import dev.ronnie.allplayers.utils.RecyclerViewItemDecoration
 import dev.ronnie.allplayers.viewmodels.MainViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -25,8 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
     lateinit var binding: ActivityMainBinding
     private val adapter =
-        PlayersAdapter(
-        )
+        PlayersAdapter { name: String -> snackBarClickedPlayer(name) }
 
     private var searchJob: Job? = null
 
@@ -50,20 +51,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun snackBarClickedPlayer(name: String) {
+        val parentLayout = findViewById<View>(android.R.id.content)
+        Snackbar.make(parentLayout, name, Snackbar.LENGTH_LONG)
+            .show()
+    }
+
     private fun setUpAdapter() {
 
-        binding.allProductRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        binding.allProductRecyclerView.setHasFixedSize(true)
-
+        binding.allProductRecyclerView.apply {
+            this.layoutManager = LinearLayoutManager(this@MainActivity)
+            this.setHasFixedSize(true)
+            this.addItemDecoration(RecyclerViewItemDecoration())
+        }
         binding.allProductRecyclerView.adapter = adapter.withLoadStateFooter(
             footer = PlayersLoadingStateAdapter()
         )
+
         adapter.addLoadStateListener { loadState ->
 
-
-            if (loadState.refresh is LoadState.Loading
-            ) {
+            if (loadState.refresh is LoadState.Loading) {
                 binding.progressBarPopular.visibility = View.VISIBLE
 
             } else {

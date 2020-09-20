@@ -3,21 +3,19 @@ package dev.ronnie.allplayers.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.ronnie.allplayers.models.Data
+import dev.ronnie.allplayers.models.Player
 import kotlinx.coroutines.flow.Flow
 
 class PlayersRepository {
 
     fun getPlayers(
 
-    ): Flow<PagingData<Data>> {
+    ): Flow<PagingData<Player>> {
 
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = NETWORK_PAGE_SIZE),
             pagingSourceFactory = {
-                PlayersDataSource(
-
-                )
+                PlayersDataSource()
             }
         ).flow
 

@@ -1,6 +1,6 @@
 package dev.ronnie.allplayers.models
 
-data class Data(
+data class Player(
     val first_name: String,
     val height_feet: Any,
     val height_inches: Any,
