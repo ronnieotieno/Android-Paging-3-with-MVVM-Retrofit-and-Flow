@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerViewItemDecoration() :
+class RecyclerViewItemDecoration :
     RecyclerView.ItemDecoration() {
     private val decorationHeightWidth: Int = 10
     override fun getItemOffsets(

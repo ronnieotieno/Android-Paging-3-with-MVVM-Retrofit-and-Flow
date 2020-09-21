@@ -9,39 +9,17 @@ import dev.ronnie.allplayers.R
 import dev.ronnie.allplayers.databinding.AdapterItemBinding
 import dev.ronnie.allplayers.models.Player
 
-class PlayersAdapter(val clicked: (String) -> Unit) :
+class PlayersAdapter(private val clicked: (String) -> Unit) :
     PagingDataAdapter<Player, PlayersAdapter.PlayersViewHolder>(
         PlayersDiffCallback()
     ) {
 
     override fun onBindViewHolder(holder: PlayersViewHolder, position: Int) {
 
-        val data = getItem(position)!!
+        val data = getItem(position)
 
-        holder.binding.let {
+        holder.bind(data, clicked)
 
-            val name = it.root.context.getString(
-                R.string.name,
-                data.first_name, data.last_name
-            )
-            it.root.setOnClickListener {
-                clicked(name)
-            }
-            it.name.text = name
-            it.position.text = it.root.context.getString(
-                R.string.adapter_item,
-                "Position", data.position
-            )
-            it.team.text = it.root.context.getString(
-                R.string.adapter_item,
-                "Team", data.team.full_name
-            )
-            it.division.text = it.root.context.getString(
-                R.string.adapter_item,
-                "Division", data.team.division
-            )
-
-        }
 
     }
 
@@ -57,9 +35,37 @@ class PlayersAdapter(val clicked: (String) -> Unit) :
 
 
     class PlayersViewHolder(
-        val binding: AdapterItemBinding
+        private val binding: AdapterItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(data: Player?, clicked: (String) -> Unit) {
+
+            binding.let {
+
+                val name = it.root.context.getString(
+                    R.string.name,
+                    data?.first_name, data?.last_name
+                )
+                it.root.setOnClickListener {
+                    clicked(name)
+                }
+                it.name.text = name
+                it.position.text = it.root.context.getString(
+                    R.string.adapter_item,
+                    "Position", data?.position
+                )
+                it.team.text = it.root.context.getString(
+                    R.string.adapter_item,
+                    "Team", data?.team?.full_name
+                )
+                it.division.text = it.root.context.getString(
+                    R.string.adapter_item,
+                    "Division", data?.team?.division
+                )
+
+            }
+
+        }
     }
 
     private class PlayersDiffCallback : DiffUtil.ItemCallback<Player>() {
