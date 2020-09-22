@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         setUpAdapter()
         startSearchJob()
         binding.swipeRefreshLayout.setOnRefreshListener {
+
             adapter.refresh()
         }
 
