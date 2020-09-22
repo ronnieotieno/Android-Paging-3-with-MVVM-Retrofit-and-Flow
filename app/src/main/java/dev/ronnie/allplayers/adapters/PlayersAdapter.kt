@@ -33,7 +33,6 @@ class PlayersAdapter(private val clicked: (String) -> Unit) :
 
     }
 
-
     class PlayersViewHolder(
         private val binding: AdapterItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {

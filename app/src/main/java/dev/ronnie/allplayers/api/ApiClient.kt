@@ -1,33 +1,28 @@
-package dev.ronnie.allplayers.utils
+package dev.ronnie.allplayers.api
 
 import okhttp3.OkHttpClient
-import okhttp3.internal.applyConnectionSpec
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.util.concurrent.TimeUnit
 
-fun retrofit(): Retrofit {
 
-    val loggingInterceptor = HttpLoggingInterceptor()
-    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
-    val okHttpClient: OkHttpClient =
+object ApiClient {
+    private val loggingInterceptor =
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+    private val okHttpClient: OkHttpClient =
         OkHttpClient.Builder()
-            .callTimeout(5, TimeUnit.MINUTES)
-            .connectTimeout(5, TimeUnit.MINUTES)
-            .readTimeout(5, TimeUnit.MINUTES)
-            .writeTimeout(5, TimeUnit.MINUTES)
             .addInterceptor(loggingInterceptor)
             .build()
 
-    return Retrofit.Builder()
+    private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    fun <T> buildService(service: Class<T>): T = retrofit.create(service)
 
 }
 

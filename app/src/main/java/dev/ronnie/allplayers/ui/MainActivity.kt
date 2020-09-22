@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         setUpAdapter()
         startSearchJob()
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
 
     }
 
@@ -70,10 +73,11 @@ class MainActivity : AppCompatActivity() {
 
         adapter.addLoadStateListener { loadState ->
 
-            if (loadState.refresh is LoadState.Loading) {
+            if (loadState.refresh is LoadState.Loading && adapter.snapshot().isEmpty()) {
                 binding.progressBarPopular.visibility = View.VISIBLE
 
             } else {
+                binding.swipeRefreshLayout.isRefreshing = false
                 binding.progressBarPopular.visibility = View.GONE
 
                 val error = when {

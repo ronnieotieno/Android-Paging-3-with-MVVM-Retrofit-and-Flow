@@ -24,7 +24,6 @@ class PlayersRepository {
     companion object {
         private const val NETWORK_PAGE_SIZE = 25
 
-        // For Singleton instantiation
         @Volatile
         private var instance: PlayersRepository? = null
 

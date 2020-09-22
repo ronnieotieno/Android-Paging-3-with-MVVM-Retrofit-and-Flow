@@ -1,7 +1,6 @@
 package dev.ronnie.allplayers.api
 
 import dev.ronnie.allplayers.models.Players
-import dev.ronnie.allplayers.utils.retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,5 +12,8 @@ interface PlayersApi {
         @Query("page") page: Int?,
     ): Players
 
+    companion object {
+        fun create() = ApiClient.buildService(PlayersApi::class.java)
 
+    }
 }
