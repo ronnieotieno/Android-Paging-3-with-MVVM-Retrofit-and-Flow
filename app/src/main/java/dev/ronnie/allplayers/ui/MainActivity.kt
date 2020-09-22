@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         binding.swipeRefreshLayout.setOnRefreshListener {
 
             adapter.refresh()
+
         }
 
     }
