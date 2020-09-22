@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -74,11 +75,11 @@ class MainActivity : AppCompatActivity() {
         adapter.addLoadStateListener { loadState ->
 
             if (loadState.refresh is LoadState.Loading) {
-                binding.swipeRefreshLayout.isRefreshing = true
+                binding.progress.isVisible = true
 
             } else {
+                binding.progress.isVisible = false
                 binding.swipeRefreshLayout.isRefreshing = false
-
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
