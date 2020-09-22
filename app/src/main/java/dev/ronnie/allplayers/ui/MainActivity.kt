@@ -73,12 +73,12 @@ class MainActivity : AppCompatActivity() {
 
         adapter.addLoadStateListener { loadState ->
 
-            if (loadState.refresh is LoadState.Loading && adapter.snapshot().isEmpty()) {
-                binding.progressBarPopular.visibility = View.VISIBLE
+            if (loadState.refresh is LoadState.Loading) {
+                binding.swipeRefreshLayout.isRefreshing = true
 
             } else {
                 binding.swipeRefreshLayout.isRefreshing = false
-                binding.progressBarPopular.visibility = View.GONE
+
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
