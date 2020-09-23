@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import dev.ronnie.allplayers.R
 import dev.ronnie.allplayers.adapters.PlayersAdapter
 import dev.ronnie.allplayers.adapters.PlayersLoadingStateAdapter
@@ -22,10 +23,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel by viewModels {
-        InjectorUtils.provideViewModelFactory()
-    }
+    private val viewModel: MainViewModel by viewModels ()
     lateinit var binding: ActivityMainBinding
     private val adapter =
         PlayersAdapter { name: String -> snackBarClickedPlayer(name) }

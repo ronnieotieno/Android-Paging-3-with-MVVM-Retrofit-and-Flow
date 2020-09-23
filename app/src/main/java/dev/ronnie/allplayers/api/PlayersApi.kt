@@ -12,8 +12,4 @@ interface PlayersApi {
         @Query("page") page: Int?,
     ): Players
 
-    companion object {
-        fun create() = ApiClient.buildService(PlayersApi::class.java)
-
-    }
 }

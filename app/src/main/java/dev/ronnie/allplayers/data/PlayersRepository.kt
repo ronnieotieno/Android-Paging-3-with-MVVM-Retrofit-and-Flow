@@ -3,10 +3,14 @@ package dev.ronnie.allplayers.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import dev.ronnie.allplayers.api.PlayersApi
 import dev.ronnie.allplayers.models.Player
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PlayersRepository {
+@Singleton
+class PlayersRepository @Inject constructor(private val playersApi: PlayersApi) {
 
     fun getPlayers(
 
@@ -15,7 +19,7 @@ class PlayersRepository {
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = NETWORK_PAGE_SIZE),
             pagingSourceFactory = {
-                PlayersDataSource()
+                PlayersDataSource(playersApi)
             }
         ).flow
 
@@ -23,19 +27,6 @@ class PlayersRepository {
 
     companion object {
         private const val NETWORK_PAGE_SIZE = 25
-
-        @Volatile
-        private var instance: PlayersRepository? = null
-
-        fun getInstance(
-
-        ) =
-            instance
-                ?: synchronized(this) {
-                    instance
-                        ?: PlayersRepository()
-                            .also { instance = it }
-                }
     }
 
 }

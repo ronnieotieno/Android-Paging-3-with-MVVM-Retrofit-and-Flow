@@ -1,13 +1,21 @@
-package dev.ronnie.allplayers.api
+package dev.ronnie.allplayers.di
 
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dev.ronnie.allplayers.api.PlayersApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import javax.inject.Singleton
 
 
-object ApiClient {
+@Module
+@InstallIn(ApplicationComponent::class)
+object AppModule {
     private val loggingInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
     private val okHttpClient: OkHttpClient =
@@ -15,14 +23,18 @@ object ApiClient {
             .addInterceptor(loggingInterceptor)
             .build()
 
-    private val retrofit: Retrofit = Retrofit.Builder()
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun <T> buildService(service: Class<T>): T = retrofit.create(service)
+    @Provides
+    @Singleton
+    fun providePlayersApi(retrofit: Retrofit): PlayersApi = retrofit.create(PlayersApi::class.java)
 
 }
 

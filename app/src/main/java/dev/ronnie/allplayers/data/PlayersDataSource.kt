@@ -1,17 +1,17 @@
 package dev.ronnie.allplayers.data
 
 import androidx.paging.PagingSource
-import dev.ronnie.allplayers.api.ApiClient
 import dev.ronnie.allplayers.api.PlayersApi
 import dev.ronnie.allplayers.models.Player
+import javax.inject.Inject
 
-class PlayersDataSource : PagingSource<Int, Player>() {
+class PlayersDataSource (private val playersApi: PlayersApi) :
+    PagingSource<Int, Player>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Player> {
         val page = params.key ?: 1
 
         return try {
-            val playersApi = PlayersApi.create()
 
             val response = playersApi.getPlayers(params.loadSize, page)
 
