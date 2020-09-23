@@ -16,7 +16,6 @@ import dev.ronnie.allplayers.R
 import dev.ronnie.allplayers.adapters.PlayersAdapter
 import dev.ronnie.allplayers.adapters.PlayersLoadingStateAdapter
 import dev.ronnie.allplayers.databinding.ActivityMainBinding
-import dev.ronnie.allplayers.utils.InjectorUtils
 import dev.ronnie.allplayers.utils.RecyclerViewItemDecoration
 import dev.ronnie.allplayers.viewmodels.MainViewModel
 import kotlinx.coroutines.Job
