@@ -1,9 +1,8 @@
 package dev.ronnie.allplayers.viewmodels
 
-import androidx.hilt.Assisted
+
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -13,8 +12,7 @@ import dev.ronnie.allplayers.models.Player
 import kotlinx.coroutines.flow.Flow
 
 class MainViewModel @ViewModelInject constructor(
-    private val repository: PlayersRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle
+    private val repository: PlayersRepository
 ) : ViewModel() {
 
     private var currentResult: Flow<PagingData<Player>>? = null
@@ -25,5 +23,18 @@ class MainViewModel @ViewModelInject constructor(
         currentResult = newResult
         return newResult
     }
+
+    /**
+     * Same thing but with Livedata
+     */
+    private var currentResultLiveData: LiveData<PagingData<Player>>? = null
+
+    fun searchPlayersLiveData(): LiveData<PagingData<Player>> {
+        val newResultLiveData: LiveData<PagingData<Player>> =
+            repository.getPlayersLiveData().cachedIn(viewModelScope)
+        currentResultLiveData = newResultLiveData
+        return newResultLiveData
+    }
+
 
 }

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel by viewModels ()
+    private val viewModel: MainViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
     private val adapter =
         PlayersAdapter { name: String -> snackBarClickedPlayer(name) }
@@ -54,6 +55,19 @@ class MainActivity : AppCompatActivity() {
                     adapter.submitData(it)
                 }
         }
+        /**
+         * Same thing but with Livedata
+         */
+
+//        searchJob?.cancel()
+//        searchJob = lifecycleScope.launch {
+//            viewModel.searchPlayersLiveData().observe(this@MainActivity, {
+//
+//                lifecycleScope.launch { adapter.submitData(it) }
+//
+//            })
+//
+//        }
     }
 
     private fun snackBarClickedPlayer(name: String) {
@@ -70,17 +84,19 @@ class MainActivity : AppCompatActivity() {
             this.addItemDecoration(RecyclerViewItemDecoration())
         }
         binding.allProductRecyclerView.adapter = adapter.withLoadStateFooter(
-            footer = PlayersLoadingStateAdapter()
+            footer = PlayersLoadingStateAdapter { retry() }
         )
 
         adapter.addLoadStateListener { loadState ->
 
             if (loadState.refresh is LoadState.Loading) {
                 binding.progress.isVisible = true
+                binding.errorTxt.isVisible = false
 
             } else {
                 binding.progress.isVisible = false
                 binding.swipeRefreshLayout.isRefreshing = false
+
 
                 val error = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -90,12 +106,19 @@ class MainActivity : AppCompatActivity() {
                     else -> null
                 }
                 error?.let {
-                    Toast.makeText(this, it.error.localizedMessage, Toast.LENGTH_SHORT).show()
+                    if (adapter.snapshot().isEmpty()) {
+                        binding.errorTxt.isVisible = true
+                        binding.errorTxt.text = it.error.localizedMessage
+                    }
 
                 }
 
             }
         }
 
+    }
+
+    private fun retry() {
+        adapter.retry()
     }
 }

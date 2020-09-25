@@ -15,6 +15,17 @@
         android:textColor="?android:textColorPrimary"
         tools:text="Timeout" />
 
+    <Button
+        android:id="@+id/rety_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/error_msg_item"
+        android:layout_centerHorizontal="true"
+        android:text="Retry"
+        android:textAlignment="center"
+        android:textColor="?android:textColorPrimary"
+        tools:text="Timeout" />
+
     <ProgressBar
         android:id="@+id/progress_bar_item"
         style="?android:attr/progressBarStyle"
