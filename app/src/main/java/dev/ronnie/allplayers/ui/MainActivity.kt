@@ -2,12 +2,11 @@ package dev.ronnie.allplayers.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.searchPlayers()
                 .collectLatest {
                     adapter.submitData(it)
+                    Log.d("DataHere", it.toString())
                 }
         }
         /**
@@ -79,9 +79,9 @@ class MainActivity : AppCompatActivity() {
     private fun setUpAdapter() {
 
         binding.allProductRecyclerView.apply {
-            this.layoutManager = LinearLayoutManager(this@MainActivity)
-            this.setHasFixedSize(true)
-            this.addItemDecoration(RecyclerViewItemDecoration())
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            setHasFixedSize(true)
+            addItemDecoration(RecyclerViewItemDecoration())
         }
         binding.allProductRecyclerView.adapter = adapter.withLoadStateFooter(
             footer = PlayersLoadingStateAdapter { retry() }
@@ -90,7 +90,10 @@ class MainActivity : AppCompatActivity() {
         adapter.addLoadStateListener { loadState ->
 
             if (loadState.refresh is LoadState.Loading) {
-                binding.progress.isVisible = true
+
+                if (adapter.snapshot().isEmpty()) {
+                    binding.progress.isVisible = true
+                }
                 binding.errorTxt.isVisible = false
 
             } else {
@@ -121,4 +124,6 @@ class MainActivity : AppCompatActivity() {
     private fun retry() {
         adapter.retry()
     }
+
+
 }
