@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.searchPlayers()
                 .collectLatest {
                     adapter.submitData(it)
-                    Log.d("DataHere", it.toString())
                 }
         }
         /**

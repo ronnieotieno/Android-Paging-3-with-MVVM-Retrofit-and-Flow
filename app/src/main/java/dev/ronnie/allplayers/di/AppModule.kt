@@ -34,7 +34,6 @@ object AppModule {
     @Provides
     @Singleton
     fun providePlayersApi(retrofit: Retrofit): PlayersApi = retrofit.create(PlayersApi::class.java)
-
 }
 
 const val BASE_URL = "https://www.balldontlie.io/"

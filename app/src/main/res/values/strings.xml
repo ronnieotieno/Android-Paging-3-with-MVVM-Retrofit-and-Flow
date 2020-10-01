@@ -3,4 +3,5 @@
 
     <string name="adapter_item">%1$s: %2$s</string>
     <string name="name">%1$s %2$s</string>
+    <string name="retry">Retry</string>
 </resources>

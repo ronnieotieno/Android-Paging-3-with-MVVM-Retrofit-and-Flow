@@ -16,7 +16,6 @@ class PlayersDataSource(private val playersApi: PlayersApi) :
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Player> {
         val page = params.key ?: STARTING_PAGE_INDEX
-
         return try {
             val response = playersApi.getPlayers(params.loadSize, page)
             val players = response.playersList

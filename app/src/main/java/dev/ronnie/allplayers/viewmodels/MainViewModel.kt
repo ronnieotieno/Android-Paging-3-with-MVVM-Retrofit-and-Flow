@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
 class MainViewModel @ViewModelInject constructor(
     private val repository: PlayersRepository
 ) : ViewModel() {
-
     private var currentResult: Flow<PagingData<Player>>? = null
 
     fun searchPlayers(): Flow<PagingData<Player>> {

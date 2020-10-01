@@ -15,7 +15,6 @@ import javax.inject.Singleton
 class PlayersRepository @Inject constructor(private val playersApi: PlayersApi) {
 
     fun getPlayers(
-
     ): Flow<PagingData<Player>> {
         return Pager(
             config = PagingConfig(enablePlaceholders = false, pageSize = NETWORK_PAGE_SIZE),
@@ -23,7 +22,6 @@ class PlayersRepository @Inject constructor(private val playersApi: PlayersApi) 
                 PlayersDataSource(playersApi)
             }
         ).flow
-
     }
 
     /**
@@ -40,7 +38,6 @@ class PlayersRepository @Inject constructor(private val playersApi: PlayersApi) 
         ).liveData
 
     }
-
 
     companion object {
         private const val NETWORK_PAGE_SIZE = 25
