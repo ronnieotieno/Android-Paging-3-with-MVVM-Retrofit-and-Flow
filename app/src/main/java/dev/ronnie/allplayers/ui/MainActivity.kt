@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 //        searchJob = lifecycleScope.launch {
 //            viewModel.searchPlayersLiveData().observe(this@MainActivity, {
 //
-//                lifecycleScope.launch { adapter.submitData(it) }
+//                adapter.submitData(this@MainActivity.lifecycle, it)
 //
 //            })
 //

@@ -20,7 +20,6 @@ class PlayersAdapter(private val clicked: (String) -> Unit) :
 
         holder.bind(data, clicked)
 
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersViewHolder {
