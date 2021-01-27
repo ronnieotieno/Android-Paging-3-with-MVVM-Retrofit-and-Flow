@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dev.ronnie.allplayers.api.PlayersApi
+import dev.ronnie.allplayers.utils.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -35,5 +36,3 @@ object AppModule {
     @Singleton
     fun providePlayersApi(retrofit: Retrofit): PlayersApi = retrofit.create(PlayersApi::class.java)
 }
-
-const val BASE_URL = "https://www.balldontlie.io/"

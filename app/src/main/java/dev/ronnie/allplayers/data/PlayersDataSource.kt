@@ -3,13 +3,10 @@ package dev.ronnie.allplayers.data
 import androidx.paging.PagingSource
 import dev.ronnie.allplayers.api.PlayersApi
 import dev.ronnie.allplayers.models.Player
+import dev.ronnie.allplayers.utils.STARTING_PAGE_INDEX
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.Exception
-import java.net.HttpRetryException
-import javax.inject.Inject
 
-const val STARTING_PAGE_INDEX = 1
 
 class PlayersDataSource(private val playersApi: PlayersApi) :
     PagingSource<Int, Player>() {
