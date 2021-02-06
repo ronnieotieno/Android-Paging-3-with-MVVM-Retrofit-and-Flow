@@ -1,6 +1,9 @@
 package dev.ronnie.allplayers.adapters
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -14,11 +17,14 @@ class PlayersAdapter(private val clicked: (String) -> Unit) :
         PlayersDiffCallback()
     ) {
 
+    private var duration: Long = 250
+    private var onAttach = true
+
     override fun onBindViewHolder(holder: PlayersViewHolder, position: Int) {
 
         val data = getItem(position)
 
-        holder.bind(data, clicked)
+        holder.bind(data, position)
 
     }
 
@@ -32,11 +38,39 @@ class PlayersAdapter(private val clicked: (String) -> Unit) :
 
     }
 
-    class PlayersViewHolder(
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                onAttach = false
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
+        super.onAttachedToRecyclerView(recyclerView)
+    }
+
+    private fun setAnimation(itemView: View, i: Int) {
+        var i = i
+        if (!onAttach) {
+            i = -1
+        }
+        val isNotFirstItem = i == -1
+        i++
+        itemView.alpha = 0f
+        val animatorSet = AnimatorSet()
+        val animator = ObjectAnimator.ofFloat(itemView, "alpha", 0f, 0.5f, 1.0f)
+        ObjectAnimator.ofFloat(itemView, "alpha", 0f).start()
+        animator.startDelay = if (isNotFirstItem) duration / 2 else i * duration / 3
+        animator.duration = 500
+        animatorSet.play(animator)
+        animator.start()
+    }
+
+    inner class PlayersViewHolder(
         private val binding: AdapterItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Player?, clicked: (String) -> Unit) {
+        fun bind(data: Player?, position: Int) {
 
             binding.let {
 
@@ -61,6 +95,7 @@ class PlayersAdapter(private val clicked: (String) -> Unit) :
                     "Division", data?.team?.division
                 )
 
+                setAnimation(it.root, position)
             }
 
         }
