@@ -17,7 +17,7 @@ class PlayersAdapter(private val clicked: (String) -> Unit) :
         PlayersDiffCallback()
     ) {
 
-    private var duration: Long = 250
+    private var duration: Long = 100
     private var onAttach = true
 
     override fun onBindViewHolder(holder: PlayersViewHolder, position: Int) {
