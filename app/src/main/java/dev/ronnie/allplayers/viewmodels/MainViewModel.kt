@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.ronnie.allplayers.data.PlayersRepository
 import dev.ronnie.allplayers.models.Player
 import kotlinx.coroutines.flow.Flow
 
+@HiltViewModel
 class MainViewModel @ViewModelInject constructor(
     private val repository: PlayersRepository
 ) : ViewModel() {

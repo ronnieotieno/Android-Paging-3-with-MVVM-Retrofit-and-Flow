@@ -1,6 +1,7 @@
 package dev.ronnie.allplayers.data
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import dev.ronnie.allplayers.api.PlayersApi
 import dev.ronnie.allplayers.models.Player
 import dev.ronnie.allplayers.utils.STARTING_PAGE_INDEX
@@ -29,5 +30,9 @@ class PlayersDataSource(private val playersApi: PlayersApi) :
             LoadResult.Error(exception)
         }
 
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Player>): Int? {
+        return state.anchorPosition
     }
 }

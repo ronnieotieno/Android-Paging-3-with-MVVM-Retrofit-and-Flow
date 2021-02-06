@@ -3,7 +3,7 @@ package dev.ronnie.allplayers.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import dev.ronnie.allplayers.api.PlayersApi
 import dev.ronnie.allplayers.utils.BASE_URL
 import okhttp3.OkHttpClient
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
     private val loggingInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
