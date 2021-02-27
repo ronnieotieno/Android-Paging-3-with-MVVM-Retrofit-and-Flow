@@ -1,13 +1,12 @@
 package dev.ronnie.allplayers.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import dev.ronnie.allplayers.R
-import kotlinx.android.synthetic.main.network_state_item.view.*
+import dev.ronnie.allplayers.databinding.NetworkStateItemBinding
 
 
 class PlayersLoadingStateAdapter(private val retry: () -> Unit) :
@@ -15,33 +14,25 @@ class PlayersLoadingStateAdapter(private val retry: () -> Unit) :
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
 
-
-        val progress = holder.itemView.progress_bar_item
-        val retryBtn = holder.itemView.rety_btn
-        val txtErrorMessage = holder.itemView.error_msg_item
+        val progress = holder.binding.progressBarItem
+        val retryBtn = holder.binding.retyBtn
+        val txtErrorMessage = holder.binding.errorMsgItem
 
         if (loadState is LoadState.Loading) {
-            progress.visibility =
-                View.VISIBLE;
-            txtErrorMessage.visibility = View.GONE
-            retryBtn.visibility = View.GONE
+            progress.isVisible = true
+            txtErrorMessage.isVisible = false
+            retryBtn.isVisible = false
 
         } else {
-
-            progress.visibility =
-                View.GONE
+            progress.isVisible = false
         }
 
         if (loadState is LoadState.Error) {
-            txtErrorMessage.visibility = View.VISIBLE
-            retryBtn.visibility = View.VISIBLE
+            txtErrorMessage.isVisible = true
+            retryBtn.isVisible = true
             txtErrorMessage.text = loadState.error.localizedMessage
         }
 
-        if (loadState is LoadState.NotLoading && loadState.endOfPaginationReached) {
-            txtErrorMessage.visibility = View.VISIBLE
-            txtErrorMessage.text = "You have reached the end"
-        }
 
         retryBtn.setOnClickListener {
             retry.invoke()
@@ -51,12 +42,10 @@ class PlayersLoadingStateAdapter(private val retry: () -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
         return LoadStateViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.network_state_item, parent, false)
+            NetworkStateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    class LoadStateViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-
-    }
+    inner class LoadStateViewHolder(val binding: NetworkStateItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }
