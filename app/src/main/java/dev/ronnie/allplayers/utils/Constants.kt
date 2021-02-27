@@ -6,5 +6,5 @@ package dev.ronnie.allplayers.utils
  **/
 
 
-const val BASE_URL = "https://www.balldontlie.io/"
+const val BASE_URL = "https://www.balldontlie.io/api/v1/"
 const val STARTING_PAGE_INDEX = 1

@@ -1,7 +1,6 @@
 package dev.ronnie.allplayers.viewmodels
 
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,9 +10,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.ronnie.allplayers.data.PlayersRepository
 import dev.ronnie.allplayers.models.Player
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @ViewModelInject constructor(
+class MainViewModel @Inject constructor(
     private val repository: PlayersRepository
 ) : ViewModel() {
     private var currentResult: Flow<PagingData<Player>>? = null

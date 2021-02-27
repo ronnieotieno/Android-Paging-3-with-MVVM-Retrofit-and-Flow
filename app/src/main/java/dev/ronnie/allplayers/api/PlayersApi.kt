@@ -6,7 +6,7 @@ import retrofit2.http.Query
 
 interface PlayersApi {
 
-    @GET("api/v1/players")
+    @GET("players")
     suspend fun getPlayers(
         @Query("per_page") per_page: Int?,
         @Query("page") page: Int?,

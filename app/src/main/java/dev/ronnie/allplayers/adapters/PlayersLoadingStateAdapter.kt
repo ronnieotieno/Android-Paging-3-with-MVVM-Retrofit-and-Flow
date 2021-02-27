@@ -15,6 +15,7 @@ class PlayersLoadingStateAdapter(private val retry: () -> Unit) :
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
 
+
         val progress = holder.itemView.progress_bar_item
         val retryBtn = holder.itemView.rety_btn
         val txtErrorMessage = holder.itemView.error_msg_item
