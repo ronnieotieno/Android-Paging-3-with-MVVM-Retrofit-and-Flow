@@ -1,4 +1,4 @@
-package dev.ronnie.allplayers.adapters
+package dev.ronnie.allplayers.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

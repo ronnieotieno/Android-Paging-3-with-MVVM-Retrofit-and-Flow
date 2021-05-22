@@ -1,27 +1,27 @@
-package dev.ronnie.allplayers.ui
+package dev.ronnie.allplayers.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dev.ronnie.allplayers.R
-import dev.ronnie.allplayers.adapters.PlayersAdapter
-import dev.ronnie.allplayers.adapters.PlayersLoadingStateAdapter
+import dev.ronnie.allplayers.ui.adapters.PlayersAdapter
+import dev.ronnie.allplayers.ui.adapters.PlayersLoadingStateAdapter
 import dev.ronnie.allplayers.databinding.ActivityMainBinding
 import dev.ronnie.allplayers.utils.RecyclerViewItemDecoration
-import dev.ronnie.allplayers.viewmodels.MainViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startSearchJob() {
-
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.searchPlayers()
@@ -54,19 +53,19 @@ class MainActivity : AppCompatActivity() {
                     adapter.submitData(it)
                 }
         }
+
         /**
          * Same thing but with Livedata
          */
+        /*searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.searchPlayersLiveData().observe(this@MainActivity, {
 
-//        searchJob?.cancel()
-//        searchJob = lifecycleScope.launch {
-//            viewModel.searchPlayersLiveData().observe(this@MainActivity, {
-//
-//                adapter.submitData(this@MainActivity.lifecycle, it)
-//
-//            })
-//
-//        }
+                adapter.submitData(this@MainActivity.lifecycle, it)
+
+            })
+
+        }*/
     }
 
     private fun snackBarClickedPlayer(name: String) {
