@@ -25,11 +25,13 @@ class PlayersRepository @Inject constructor(
             maxSize = PAGE_SIZE + (PAGE_SIZE * 2)
         )
         val playersRemoteMediator = PlayersRemoteMediator(playersApi, appDatabase)
-        val pagingSourceFactory = appDatabase.playersDao().getPlayers()
+        val pagingSourceFactory = { appDatabase.playersDao().getPlayers() }
 
-        return Pager(config = playersPagingConfig, remoteMediator = playersRemoteMediator) {
-            pagingSourceFactory
-        }.flow
+        return Pager(
+            config = playersPagingConfig,
+            remoteMediator = playersRemoteMediator,
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
     }
 
     /**
@@ -43,12 +45,13 @@ class PlayersRepository @Inject constructor(
             maxSize = PAGE_SIZE + (PAGE_SIZE * 2)
         )
         val playersRemoteMediator = PlayersRemoteMediator(playersApi, appDatabase)
-        val pagingSourceFactory = appDatabase.playersDao().getPlayers()
+        val pagingSourceFactory = { appDatabase.playersDao().getPlayers() }
 
         return Pager(
             config = playersPagingConfig,
-            remoteMediator = playersRemoteMediator,
-            pagingSourceFactory = { pagingSourceFactory }).liveData
+            //remoteMediator = playersRemoteMediator,
+            pagingSourceFactory = pagingSourceFactory
+        ).liveData
 
     }
 

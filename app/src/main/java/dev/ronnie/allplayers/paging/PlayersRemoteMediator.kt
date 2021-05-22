@@ -1,5 +1,6 @@
 package dev.ronnie.allplayers.paging
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -40,8 +41,11 @@ class PlayersRemoteMediator(
             }
         }
 
+        Log.e("VickiKbt", "$page")
+
         try {
-            val response = playersApi.fetchPlayers(per_page = pagingState.config.pageSize, page = page)
+            val response =
+                playersApi.fetchPlayers(per_page = pagingState.config.pageSize, page = page)
             val players = response.playersList
             val isEndOfList = response.playersList.isEmpty()
 
@@ -72,22 +76,23 @@ class PlayersRemoteMediator(
         loadType: LoadType,
         pagingState: PagingState<Int, Player>
     ): Any {
-        return when (loadType) {
+        when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKey = getRemoteKeyClosestToCurrentPosition(pagingState)
-                remoteKey?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
+                return remoteKey?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
 
             LoadType.APPEND -> {
                 val remoteKey = getLastRemoteKey(pagingState)
                 val nextKey = remoteKey?.nextKey
-                nextKey ?: MediatorResult.Success(endOfPaginationReached = false)
+                return nextKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
 
             LoadType.PREPEND -> {
                 val remoteKey = getFirstRemoteKey(pagingState)
                 val prevKey = remoteKey?.prevKey
-                prevKey ?: MediatorResult.Success(endOfPaginationReached = false)
+                return prevKey ?: MediatorResult.Success(endOfPaginationReached = false)
+                //return MediatorResult.Success(endOfPaginationReached = true)
             }
         }
     }
