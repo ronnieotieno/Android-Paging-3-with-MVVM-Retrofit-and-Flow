@@ -15,7 +15,10 @@ import java.io.IOException
 
 
 @OptIn(ExperimentalPagingApi::class)
-class PlayersRemoteMediator(private val playersApi: PlayersApi, private val appDatabase: AppDatabase) :
+class PlayersRemoteMediator(
+    private val playersApi: PlayersApi,
+    private val appDatabase: AppDatabase
+) :
     RemoteMediator<Int, Player>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -38,8 +41,7 @@ class PlayersRemoteMediator(private val playersApi: PlayersApi, private val appD
         }
 
         try {
-            val response =
-                playersApi.fetchPlayers(per_page = pagingState.config.pageSize, page = page)
+            val response = playersApi.fetchPlayers(per_page = pagingState.config.pageSize, page = page)
             val players = response.playersList
             val isEndOfList = response.playersList.isEmpty()
 
@@ -57,7 +59,7 @@ class PlayersRemoteMediator(private val playersApi: PlayersApi, private val appD
                 appDatabase.remoteKeyDao().saveRemoteKeys(remoteKeys = keys)
                 appDatabase.playersDao().savePlayers(players = players)
             }
-            return MediatorResult.Success(endOfPaginationReached = isEndOfList)
+            return MediatorResult.Success(endOfPaginationReached = response.meta.next_page == null)
         } catch (exception: IOException) {
             val error = IOException("Please Check Internet Connection")
             return MediatorResult.Error(error)

@@ -27,10 +27,9 @@ class PlayersRepository @Inject constructor(
         val playersRemoteMediator = PlayersRemoteMediator(playersApi, appDatabase)
         val pagingSourceFactory = appDatabase.playersDao().getPlayers()
 
-        return Pager(
-            config = playersPagingConfig,
-            remoteMediator = playersRemoteMediator,
-            pagingSourceFactory = { pagingSourceFactory }).flow
+        return Pager(config = playersPagingConfig, remoteMediator = playersRemoteMediator) {
+            pagingSourceFactory
+        }.flow
     }
 
     /**
