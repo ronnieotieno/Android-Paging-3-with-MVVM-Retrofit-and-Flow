@@ -13,7 +13,7 @@ interface RemoteKeyDao {
     suspend fun saveRemoteKeys(remoteKeys: List<RemoteKey>)
 
     @Query("SELECT * FROM Remote_Key_Table WHERE Player_ID=:playerId")
-    suspend fun getRemoteKey(playerId: Int): RemoteKey?
+    suspend fun getRemoteKey(playerId: Int): RemoteKey
 
     @Query("DELETE FROM Players_Table")
     suspend fun deleteRemoteKeys()

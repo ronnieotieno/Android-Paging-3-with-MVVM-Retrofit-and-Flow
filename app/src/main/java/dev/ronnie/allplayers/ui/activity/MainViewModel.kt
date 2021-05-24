@@ -17,13 +17,12 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: PlayersRepository
 ) : ViewModel() {
-    private var currentResult: Flow<PagingData<Player>>? = null
+    //private var currentResult: Flow<PagingData<Player>>? = null
 
     @ExperimentalPagingApi
     fun searchPlayers(): Flow<PagingData<Player>> {
-        val newResult: Flow<PagingData<Player>> =
-            repository.getPlayers().cachedIn(viewModelScope)
-        currentResult = newResult
+        val newResult: Flow<PagingData<Player>> = repository.getPlayers()
+        //currentResult = newResult
         return newResult
     }
 
@@ -34,9 +33,8 @@ class MainViewModel @Inject constructor(
 
     @ExperimentalPagingApi
     fun searchPlayersLiveData(): LiveData<PagingData<Player>> {
-        val newResultLiveData: LiveData<PagingData<Player>> =
-            repository.getPlayersLiveData().cachedIn(viewModelScope)
-        currentResultLiveData = newResultLiveData
+        val newResultLiveData: LiveData<PagingData<Player>> = repository.getPlayersLiveData().cachedIn(viewModelScope)
+        //currentResultLiveData = newResultLiveData
         return newResultLiveData
     }
 

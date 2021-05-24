@@ -24,10 +24,11 @@ import kotlinx.coroutines.launch
 @ExperimentalPagingApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     private val viewModel: MainViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
-    private val adapter =
-        PlayersAdapter { name: String -> snackBarClickedPlayer(name) }
+
+    private val adapter = PlayersAdapter { name: String -> snackBarClickedPlayer(name) }
 
     private var searchJob: Job? = null
 
@@ -37,10 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         setUpAdapter()
         startSearchJob()
+
         binding.swipeRefreshLayout.setOnRefreshListener {
-
             adapter.refresh()
-
         }
 
     }

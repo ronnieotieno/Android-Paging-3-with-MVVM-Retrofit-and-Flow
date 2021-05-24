@@ -8,8 +8,8 @@ interface PlayersApi {
 
     @GET("players")
     suspend fun fetchPlayers(
-        @Query("per_page") per_page: Int?,
-        @Query("page") page: Int?,
+        @Query("per_page") per_page: Int?=null,
+        @Query("page") page: Int?=null,
     ): Players
 
 }

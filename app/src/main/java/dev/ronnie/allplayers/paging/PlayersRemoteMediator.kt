@@ -22,9 +22,9 @@ class PlayersRemoteMediator(
 ) :
     RemoteMediator<Int, Player>() {
 
-    override suspend fun initialize(): InitializeAction {
+    /*override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
-    }
+    }*/
 
     override suspend fun load(
         loadType: LoadType,
@@ -41,24 +41,26 @@ class PlayersRemoteMediator(
             }
         }
 
-        Log.e("VickiKbt", "$page")
-
         try {
-            val response =
-                playersApi.fetchPlayers(per_page = pagingState.config.pageSize, page = page)
+            val response = playersApi.fetchPlayers(page = page)
             val players = response.playersList
             val isEndOfList = response.playersList.isEmpty()
 
+            Log.e("VickiKbt", "Page: $page")
+
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    appDatabase.playersDao().deletePlayers()
                     appDatabase.remoteKeyDao().deleteRemoteKeys()
+                    appDatabase.playersDao().deletePlayers()
                 }
                 val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (isEndOfList) null else page + 1
                 val keys = response.playersList.map {
                     RemoteKey(playerId = it.id, prevKey = prevKey, nextKey = nextKey)
                 }
+
+                Log.e("VickiKbt", "Prev Key: $prevKey")
+                Log.e("VickiKbt", "Next Key: $nextKey")
 
                 appDatabase.remoteKeyDao().saveRemoteKeys(remoteKeys = keys)
                 appDatabase.playersDao().savePlayers(players = players)
@@ -76,23 +78,28 @@ class PlayersRemoteMediator(
         loadType: LoadType,
         pagingState: PagingState<Int, Player>
     ): Any {
-        when (loadType) {
+        return when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKey = getRemoteKeyClosestToCurrentPosition(pagingState)
-                return remoteKey?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
+                remoteKey?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
 
             LoadType.APPEND -> {
                 val remoteKey = getLastRemoteKey(pagingState)
                 val nextKey = remoteKey?.nextKey
-                return nextKey ?: MediatorResult.Success(endOfPaginationReached = false)
+
+                Log.e("VickiKbt", "Next Key in LoadType.APPEND: $nextKey")
+
+                nextKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
 
             LoadType.PREPEND -> {
                 val remoteKey = getFirstRemoteKey(pagingState)
                 val prevKey = remoteKey?.prevKey
-                return prevKey ?: MediatorResult.Success(endOfPaginationReached = false)
-                //return MediatorResult.Success(endOfPaginationReached = true)
+
+                Log.e("VickiKbt", "Prev Key in LoadType.PREPEND: $prevKey")
+
+                prevKey ?: MediatorResult.Success(endOfPaginationReached = false)
             }
         }
     }

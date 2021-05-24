@@ -22,15 +22,15 @@ class PlayersRepository @Inject constructor(
         val playersPagingConfig = PagingConfig(
             enablePlaceholders = false,
             pageSize = PAGE_SIZE,
-            maxSize = PAGE_SIZE + (PAGE_SIZE * 2)
+            maxSize = PAGE_SIZE + (PAGE_SIZE * 4)
         )
         val playersRemoteMediator = PlayersRemoteMediator(playersApi, appDatabase)
-        val pagingSourceFactory = { appDatabase.playersDao().getPlayers() }
+        val playersPagingSource = { appDatabase.playersDao().getPlayers() }
 
         return Pager(
             config = playersPagingConfig,
             remoteMediator = playersRemoteMediator,
-            pagingSourceFactory = pagingSourceFactory
+            pagingSourceFactory = playersPagingSource
         ).flow
     }
 
@@ -42,15 +42,15 @@ class PlayersRepository @Inject constructor(
         val playersPagingConfig = PagingConfig(
             enablePlaceholders = false,
             pageSize = PAGE_SIZE,
-            maxSize = PAGE_SIZE + (PAGE_SIZE * 2)
+            maxSize = PAGE_SIZE + (PAGE_SIZE * 4)
         )
         val playersRemoteMediator = PlayersRemoteMediator(playersApi, appDatabase)
-        val pagingSourceFactory = { appDatabase.playersDao().getPlayers() }
+        val playersPagingSource = { appDatabase.playersDao().getPlayers() }
 
         return Pager(
             config = playersPagingConfig,
-            //remoteMediator = playersRemoteMediator,
-            pagingSourceFactory = pagingSourceFactory
+            remoteMediator = playersRemoteMediator,
+            pagingSourceFactory = playersPagingSource
         ).liveData
 
     }
