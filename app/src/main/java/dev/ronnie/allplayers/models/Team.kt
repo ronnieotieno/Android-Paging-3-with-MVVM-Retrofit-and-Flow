@@ -1,5 +1,9 @@
 package dev.ronnie.allplayers.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Team(
     val abbreviation: String,
     val city: String,
@@ -8,4 +12,4 @@ data class Team(
     val full_name: String,
     val id: Int,
     val name: String
-)
+) : Parcelable

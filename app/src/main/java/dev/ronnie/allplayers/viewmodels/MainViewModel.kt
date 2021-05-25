@@ -4,6 +4,7 @@ package dev.ronnie.allplayers.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private var currentResult: Flow<PagingData<Player>>? = null
 
+    @ExperimentalPagingApi
     fun searchPlayers(): Flow<PagingData<Player>> {
         val newResult: Flow<PagingData<Player>> =
             repository.getPlayers().cachedIn(viewModelScope)
