@@ -1,10 +1,13 @@
-package dev.ronnie.allplayers.data
+package dev.ronnie.allplayers.data.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import dev.ronnie.allplayers.data.dao.PlayersDao
+import dev.ronnie.allplayers.data.entity.RemoteKeys
+import dev.ronnie.allplayers.data.dao.RemoteKeysDao
 import dev.ronnie.allplayers.models.Player
 
 /**
@@ -19,7 +22,7 @@ import dev.ronnie.allplayers.models.Player
 abstract class AppDataBase : RoomDatabase() {
 
     abstract val playersDao: PlayersDao
-    abstract val remoteKeysDao:RemoteKeysDao
+    abstract val remoteKeysDao: RemoteKeysDao
 
     //Room should only be initiated once, marked volatile to be thread safe.
     companion object {

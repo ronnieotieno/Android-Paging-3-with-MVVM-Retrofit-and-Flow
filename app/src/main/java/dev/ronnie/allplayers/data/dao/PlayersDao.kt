@@ -1,4 +1,4 @@
-package dev.ronnie.allplayers.data
+package dev.ronnie.allplayers.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
@@ -18,4 +18,8 @@ interface PlayersDao {
 
     @Query("DELETE FROM players_table")
     suspend fun clearRepos()
+
+    @Query("SELECT COUNT(id) from players_table")
+    suspend fun count(): Int
+
 }
