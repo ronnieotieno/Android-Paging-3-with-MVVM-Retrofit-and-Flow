@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -25,12 +26,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val adapter =
         PlayersAdapter { name: String -> snackBarClickedPlayer(name) }
 
     private var searchJob: Job? = null
 
+    @ExperimentalPagingApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    @ExperimentalPagingApi
     private fun startSearchJob() {
 
         searchJob?.cancel()
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter.addLoadStateListener { loadState ->
 
-            if (loadState.refresh is LoadState.Loading) {
+            if (loadState.mediator?.refresh is LoadState.Loading) {
 
                 if (adapter.snapshot().isEmpty()) {
                     binding.progress.isVisible = true
@@ -99,11 +102,10 @@ class MainActivity : AppCompatActivity() {
                 binding.progress.isVisible = false
                 binding.swipeRefreshLayout.isRefreshing = false
 
-
                 val error = when {
-                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                    loadState.mediator?.prepend is LoadState.Error -> loadState.mediator?.prepend as LoadState.Error
+                    loadState.mediator?.append is LoadState.Error -> loadState.mediator?.append as LoadState.Error
+                    loadState.mediator?.refresh is LoadState.Error -> loadState.mediator?.refresh as LoadState.Error
 
                     else -> null
                 }
