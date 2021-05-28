@@ -1,4 +1,4 @@
-package dev.ronnie.allplayers.data.remotediator
+ package dev.ronnie.allplayers.data.remotediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType

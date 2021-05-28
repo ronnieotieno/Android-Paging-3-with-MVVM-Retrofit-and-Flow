@@ -19,6 +19,9 @@ class PlayersRepository @Inject constructor(
 
     private val pagingSourceFactory = { db.playersDao.getPlayers() }
 
+    /**
+     * for caching
+     */
     @ExperimentalPagingApi
     fun getPlayers(): Flow<PagingData<Player>> {
         return Pager(
@@ -31,9 +34,11 @@ class PlayersRepository @Inject constructor(
                 db
             ),
             pagingSourceFactory = pagingSourceFactory
-        ).flow
+        ).flow //can also return livedata
     }
-
+    /**
+     * Use this if you dont want to cache data to room
+     */
 //    fun getPlayers(
 //    ): Flow<PagingData<Player>> {
 //        return Pager(
