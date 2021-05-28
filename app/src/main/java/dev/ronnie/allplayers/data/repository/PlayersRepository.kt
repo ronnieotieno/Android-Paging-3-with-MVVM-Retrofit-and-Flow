@@ -1,8 +1,9 @@
-package dev.ronnie.allplayers.data
+package dev.ronnie.allplayers.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.*
 import dev.ronnie.allplayers.api.PlayersApi
+import dev.ronnie.allplayers.data.datasource.PlayersDataSource
 import dev.ronnie.allplayers.data.db.AppDataBase
 import dev.ronnie.allplayers.data.remotediator.PlayersRemoteMediator
 import dev.ronnie.allplayers.models.Player

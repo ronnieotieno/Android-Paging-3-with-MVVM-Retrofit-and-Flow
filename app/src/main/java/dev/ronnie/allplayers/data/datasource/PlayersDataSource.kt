@@ -1,4 +1,4 @@
-package dev.ronnie.allplayers.data
+package dev.ronnie.allplayers.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
