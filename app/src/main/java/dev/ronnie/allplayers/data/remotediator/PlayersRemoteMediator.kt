@@ -27,7 +27,6 @@ class PlayersRemoteMediator(
             }
             LoadType.PREPEND -> {
                 return MediatorResult.Success(endOfPaginationReached = true)
-
             }
             LoadType.APPEND -> {
 
@@ -36,7 +35,6 @@ class PlayersRemoteMediator(
         }
 
         try {
-
             if (key != null) {
                 if (key.isEndReached) return MediatorResult.Success(endOfPaginationReached = true)
             }
