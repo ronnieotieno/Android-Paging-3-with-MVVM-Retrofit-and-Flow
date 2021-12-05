@@ -27,6 +27,11 @@ allprojects {
         maven {
             url "https://maven.google.com" // Google's Maven repository
         }
+        configurations.all {
+            resolutionStrategy {
+                force 'org.xerial:sqlite-jdbc:3.34.0'
+            }
+        }
 
     }
 }

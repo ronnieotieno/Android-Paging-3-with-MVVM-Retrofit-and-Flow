@@ -20,7 +20,7 @@ import dev.ronnie.allplayers.models.Player
 //Entities that are used
 @Database(
     entities = [Player::class, RemoteKeys::class],
-    version = 1, exportSchema = false
+    version = 2, exportSchema = false
 )
 abstract class AppDataBase : RoomDatabase() {
 

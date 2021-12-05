@@ -29,7 +29,6 @@ class PlayersRemoteMediator(
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
-
                 getKey()
             }
         }
@@ -48,14 +47,11 @@ class PlayersRemoteMediator(
                 apiResponse.meta.next_page == null || apiResponse.meta.current_page == apiResponse.meta.total_pages
 
             db.withTransaction {
-
-                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + 1
+                val nextKey = page + 1
 
                 db.remoteKeysDao.insertKey(
                     RemoteKeys(
                         0,
-                        prevKey = prevKey,
                         nextKey = nextKey,
                         isEndReached = endOfPaginationReached
                     )
